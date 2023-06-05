@@ -1,4 +1,5 @@
 import 'package:expense_tracker/widgets/expense_list/expense_list.dart';
+import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 
 import '../models/expense.dart';
@@ -26,13 +27,48 @@ class _ExpensesState extends State<Expenses> {
       category: Category.leisure,
     ),
   ];
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      //isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(
+        onAddExpense: _addExpense,
+      ),
+    );
+  }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+    Navigator.pop(context);
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Expense Tracker'),
+        actions: [
+          IconButton(
+              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
+        ],
+      ),
       body: Column(
         children: [
           const Text("The Chart"),
-          Expanded(child: ExpenseList(expenseList: _registeredExpenses))
+          Expanded(
+              child: ExpenseList(
+            expenseList: _registeredExpenses,
+            onRemoveExpense: _removeExpense,
+          ))
         ],
       ),
     );
