@@ -17,6 +17,10 @@ class ExpenseList extends StatelessWidget {
           onDismissed: (direction) {
             onRemoveExpense(expenseList[index]);
           },
+          background: Container(
+            color: const Color.fromARGB(255, 206, 150, 241),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+          ),
           child: ExpenseItem(expense: expenseList[index]))),
     );
   }
