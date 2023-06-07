@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expense_list/expense_list.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -72,9 +73,17 @@ class _ExpensesState extends State<Expenses> {
         ? const Center(
             child: Text("No expenses found. Start adding some!"),
           )
-        : ExpenseList(
-            expenseList: _registeredExpenses,
-            onRemoveExpense: _removeExpense,
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Chart(expenses: _registeredExpenses),
+              Expanded(
+                child: ExpenseList(
+                  expenseList: _registeredExpenses,
+                  onRemoveExpense: _removeExpense,
+                ),
+              ),
+            ],
           );
 
     return Scaffold(
